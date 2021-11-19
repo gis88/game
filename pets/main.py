@@ -10,8 +10,8 @@ pygame.display.set_caption("Runny Animals")
 icon = pygame.image.load("media/fox_logo.png")
 pygame.display.set_icon(icon)
 
-rick_width = 40
-rick_height = 80
+rick_width = 60
+rick_height = 100
 
 rick_x = display_width // 3
 rick_y = display_height - rick_height - 20
@@ -43,7 +43,6 @@ class Bottle:
             self.x -= self.speed
             return True
         else:
-            self.x = display_width + 100 + random.randrange(-80, 60)
             return False
 
     def return_self(self, radius):
@@ -74,7 +73,7 @@ def run_game():
 
         pygame.draw.rect(display, (153, 0, 75), (rick_x, rick_y, rick_width, rick_height))
         pygame.display.update()
-        clock.tick(60)
+        clock.tick(80)
 
 
 def jump():
@@ -88,9 +87,9 @@ def jump():
 
 
 def create_bottle(array):  # vars: x, y, width, height, speed
-    array.append(Bottle(display_width + 20, display_height - 100, 10, 70, 4))
-    array.append(Bottle(display_width + 300, display_height - 100, 10, 70, 4))
-    array.append(Bottle(display_width + 600, display_height - 100, 10, 70, 4))
+    array.append(Bottle(display_width + 20, display_height - 100, 10, 60, 4))
+    array.append(Bottle(display_width + 300, display_height - 100, 10, 60, 4))
+    array.append(Bottle(display_width + 600, display_height - 100, 10, 60, 4))
 
 
 def find_radius(array):
@@ -99,16 +98,16 @@ def find_radius(array):
     if maximum < display_width:
         radius = display_width
         if radius - maximum < 50:
-            radius += 150
-        else:
-            radius = maximum
+            radius += 100
+    else:
+        radius = maximum
 
-        choice = random.randrange(0, 5)
-        if choice == 0:
-            radius += random.randrange(10, 15)
-        else:
-            radius -= random.randrange(200, 350)
-        return radius
+    choice = random.randrange(0, 5)
+    if choice == 0:
+        radius += random.randrange(10, 15)
+    else:
+        radius += random.randrange(200, 350)
+    return radius
 
 
 def draw_bottle(array):

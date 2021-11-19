@@ -1,5 +1,5 @@
 import pygame
-
+import random
 pygame.init()
 
 display_width = 800
@@ -10,8 +10,8 @@ pygame.display.set_caption("Runny Animals")
 icon = pygame.image.load("media/fox_logo.png")
 pygame.display.set_icon(icon)
 
-rick_width = 60
-rick_height = 100
+rick_width = 40
+rick_height = 80
 
 rick_x = display_width // 3
 rick_y = display_height - rick_height - 20
@@ -42,7 +42,7 @@ class Bottle:
             pygame.draw.rect(display, (0, 204, 0), (self.x, self.y, self.width, self.height))
             self.x -= self.speed
         else:
-            self.x = display_width - 45
+            self.x = display_width + 50
 
 
 def run_game():
@@ -83,9 +83,9 @@ def jump():
 
 
 def create_bottle(array):
-    array.append(Bottle(display_width - 45, display_height - 170, 20, 70, 4))
-    array.append(Bottle(display_width + 200, display_height - 150, 45, 70, 4))
-    array.append(Bottle(display_width + 600, display_height - 180, 25, 70, 4))
+    array.append(Bottle(display_width + 100, display_height - 100, 10, 70, 4))  # Add random generator to display_width
+    array.append(Bottle(display_width + 200, display_height - 100, 10, 70, 4))  # and height instead of static values.
+    array.append(Bottle(display_width + 400, display_height - 100, 10, 70, 4))  # vars: x, y, width, height, speed
 
 
 def draw_bottle(array):

@@ -38,11 +38,16 @@ class Bottle:
         self.speed = speed
 
     def move(self):
-        if self.x >= self.width:
+        if self.x >= -self.width:
             pygame.draw.rect(display, (0, 204, 0), (self.x, self.y, self.width, self.height))
             self.x -= self.speed
+            return True
         else:
-            self.x = display_width + 50
+            self.x = display_width + 100 + random.randrange(-80, 60)
+            return False
+
+    def return_self(self, radius):
+        self.x = radius
 
 
 def run_game():
@@ -82,15 +87,35 @@ def jump():
         make_jump = False
 
 
-def create_bottle(array):
-    array.append(Bottle(display_width + 100, display_height - 100, 10, 70, 4))  # Add random generator to display_width
-    array.append(Bottle(display_width + 200, display_height - 100, 10, 70, 4))  # and height instead of static values.
-    array.append(Bottle(display_width + 400, display_height - 100, 10, 70, 4))  # vars: x, y, width, height, speed
+def create_bottle(array):  # vars: x, y, width, height, speed
+    array.append(Bottle(display_width + 20, display_height - 100, 10, 70, 4))
+    array.append(Bottle(display_width + 300, display_height - 100, 10, 70, 4))
+    array.append(Bottle(display_width + 600, display_height - 100, 10, 70, 4))
+
+
+def find_radius(array):
+    maximum = max(array[0].x, array[1].x, array[2].x)
+
+    if maximum < display_width:
+        radius = display_width
+        if radius - maximum < 50:
+            radius += 150
+        else:
+            radius = maximum
+
+        choice = random.randrange(0, 5)
+        if choice == 0:
+            radius += random.randrange(10, 15)
+        else:
+            radius -= random.randrange(200, 350)
+        return radius
 
 
 def draw_bottle(array):
     for bottle in array:
-        bottle.move()
-
+        check = bottle.move()
+        if not check:
+            radius = find_radius(array)
+            bottle.return_self(radius)
 
 run_game()

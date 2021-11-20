@@ -10,11 +10,11 @@ pygame.display.set_caption("Runny Animals")
 icon = pygame.image.load("media/fox_logo.png")
 pygame.display.set_icon(icon)
 
-rick_width = 50
-rick_height = 80
+rick_width = 80
+rick_height = 40
 
 rick_x = display_width // 3
-rick_y = display_height - rick_height - 20
+rick_y = display_height - rick_height - 40
 
 # Enemies variables
 bottle_width = 15
@@ -23,6 +23,9 @@ bottle_height = 45
 bottle_x = display_width - 45
 bottle_y = display_height - bottle_height - 45
 
+
+bottle_img = [pygame.image.load("media/beer_bottle.png"), pygame.image.load("media/cola.png"), pygame.image.load("media/poo.png")]
+bottle_options = [32, 520, 32, 480, 12, 500]
 clock = pygame.time.Clock()
 
 make_jump = False
@@ -30,23 +33,28 @@ jump_counter = 30
 
 
 class Bottle:
-    def __init__(self, x, y, width, height, speed):
+    def __init__(self, x, y, width, image, speed):
         self.x = x
         self.y = y
         self.width = width
-        self.height = height
+        self.image = image
         self.speed = speed
 
     def move(self):
         if self.x >= -self.width:
-            pygame.draw.rect(display, (0, 204, 0), (self.x, self.y, self.width, self.height))
+            display.blit(self.image, (self.x, self.y))
+            # pygame.draw.rect(display, (0, 204, 0), (self.x, self.y, self.width, self.height))
             self.x -= self.speed
             return True
         else:
             return False
 
-    def return_self(self, radius):
+    def return_self(self, radius, y, width, image):
         self.x = radius
+        self.y = y
+        self.width = width
+        self.image = image
+        display.blit(self.image, (self.x, self.y))
 
 
 def run_game():
@@ -88,9 +96,23 @@ def jump():
 
 
 def create_bottle(array):  # vars: x, y, width, height, speed
-    array.append(Bottle(display_width + 20, display_height - 100, 32, 32, 4))
-    array.append(Bottle(display_width + 300, display_height - 70, 32, 32, 4))
-    array.append(Bottle(display_width + 600, display_height - 120, 12, 30, 4))
+    choice = random.randrange(0, 3)
+    img = bottle_img[choice]
+    width = bottle_options[choice * 2]
+    height = bottle_options[choice * 2 + 1]
+    array.append(Bottle(display_width + 20, height, width, img, 4))
+
+    choice = random.randrange(0, 3)
+    img = bottle_img[choice]
+    width = bottle_options[choice * 2]
+    height = bottle_options[choice * 2 + 1]
+    array.append(Bottle(display_width + 300, height, width, img, 4))
+
+    choice = random.randrange(0, 3)
+    img = bottle_img[choice]
+    width = bottle_options[choice * 2]
+    height = bottle_options[choice * 2 + 1]
+    array.append(Bottle(display_width + 600, height, width, img, 4))
 
 
 def find_radius(array):
@@ -116,6 +138,12 @@ def draw_bottle(array):
         check = bottle.move()
         if not check:
             radius = find_radius(array)
-            bottle.return_self(radius)
+            choice = random.randrange(0, 3)
+            img = bottle_img[choice]
+            width = bottle_options[choice * 2]
+            height = bottle_options[choice * 2 + 1]
+
+            bottle.return_self(radius, height, width, img)
+
 
 run_game()

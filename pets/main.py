@@ -10,8 +10,8 @@ pygame.display.set_caption("Runny Animals")
 icon = pygame.image.load("media/fox_logo.png")
 pygame.display.set_icon(icon)
 
-rick_width = 60
-rick_height = 100
+rick_width = 50
+rick_height = 80
 
 rick_x = display_width // 3
 rick_y = display_height - rick_height - 20
@@ -54,6 +54,7 @@ def run_game():
     game = True
     bottle_arr = []
     create_bottle(bottle_arr)
+    land = pygame.image.load("media/background.png")
 
     while game:
         for event in pygame.event.get():
@@ -68,7 +69,7 @@ def run_game():
         if make_jump:
             jump()
 
-        display.fill((45, 93, 156))
+        display.blit(land, (0, 0))
         draw_bottle(bottle_arr)
 
         pygame.draw.rect(display, (153, 0, 75), (rick_x, rick_y, rick_width, rick_height))
@@ -87,9 +88,9 @@ def jump():
 
 
 def create_bottle(array):  # vars: x, y, width, height, speed
-    array.append(Bottle(display_width + 20, display_height - 100, 10, 60, 4))
-    array.append(Bottle(display_width + 300, display_height - 100, 10, 60, 4))
-    array.append(Bottle(display_width + 600, display_height - 100, 10, 60, 4))
+    array.append(Bottle(display_width + 20, display_height - 100, 32, 32, 4))
+    array.append(Bottle(display_width + 300, display_height - 70, 32, 32, 4))
+    array.append(Bottle(display_width + 600, display_height - 120, 12, 30, 4))
 
 
 def find_radius(array):
